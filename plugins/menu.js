@@ -8,7 +8,7 @@ import moment from 'moment-timezone'
 import os from 'os'
 import fs from 'fs'
 import fetch from 'node-fetch'
-const { generateWAMessageFromContent, proto } = (await import('@adiwajshing/baileys')).default
+const { generateWAMessageFromContent, proto, getDevice } = (await import('@adiwajshing/baileys')).default
 
 const defaultMenu = {
   before: `
@@ -34,7 +34,7 @@ const defaultMenu = {
 ⬡│☂︎ *Mode:* %mode
 ⬡│☂︎ *Prefix:* [ *%_p* ]
 ⬡│☂︎ *Baileys:* Multi Device
-⬡│☂︎ *Battery:* ${conn.battery != undefined ? `${conn.battery.value}% ${conn.battery.live ? '🔌 pengisian' : ''}` : 'tidak diketahui'}
+⬡│☂︎ *Device:* %device
 ⬡│☂︎ *Platform:* %platform
 ⬡│☂︎ *Type:* Node.Js
 ⬡│☂︎ *Uptime:* %muptime
@@ -104,6 +104,7 @@ let tags = {
       let lprem = global.lopr
       let llim = global.lolm
       let tag = `@${m.sender.split('@')[0]}`
+      let device = await getDevice(m.id) 
     
     //-----------TIME---------
     let ucpn = `${ucapan()}`
@@ -230,7 +231,7 @@ let tags = {
       xp4levelup: max - exp,
       github: _package.homepage ? _package.homepage.url || _package.homepage : '[unknown github url]',
       tag, dash,m1,m2,m3,m4,cc, c1, c2, c3, c4,lprem,llim,
-      ucpn,platform, wib, mode, _p, money, age, tag, name, prems, level, limit, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
+      ucpn,platform, wib, mode, _p, money, age, tag, device, name, prems, level, limit, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
       readmore: readMore
     }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
@@ -308,7 +309,7 @@ let tags = {
     }
     }
     }
-    await conn.reply(m.chat, '*Tunggu Sebentar Kak. . .*', ftrol) 
+    await conn.reply(m.chat, '*Tunggu Sebentar Kak. . .*', m)
     
     //------------------< MENU >----------------
     
@@ -352,66 +353,6 @@ let tags = {
 
 return conn.relayMessage(m.chat, pre.message, { messageId: pre.key.id })*/
 
-//-------DOC TEMPLATE
-    const message = { 
-            document: { url: thumbdoc },
-            jpegThumbnail: await (await fetch(urls)).buffer(),
-            fileName: wm,
-            mimetype: td,
-            fileLength: fsizedoc,
-            pageCount: fpagedoc,
-            caption: text,
-            footer: titlebot,
-            templateButtons: [
-                {
-                    urlButton: {
-                        displayText: `${namebot}`,
-                        url: 'https://github.com/ImYanXiao/Elaina-MultiDevice'
-                    }
-                },
-                {
-                    urlButton: {
-                        displayText: 'Instagram',
-                        url: sig
-                    }
-                },
-                {
-                    quickReplyButton: {
-                        displayText: 'Owner🎐',
-                        id: '.owner'
-                    }
-                },
-                {
-                    quickReplyButton: {
-                        displayText: 'Speed⚡',
-                        id: '.ping'
-                    }
-                },
-                {
-                    quickReplyButton: {
-                        displayText: 'Donasi💵',
-                        id: '.donasi'
-                    }
-                },
-            ]
-        }
-       //await conn.sendMessage(m.chat, message, m, { mentionedJid: [m.sender] })
-        
-        //MAIN MENU
-      /*conn.sendButton(m.chat, `*${ucapan()}, ${name} 👋*`, text.trim(), await genProfile(conn, m), [['Speedtest', _p + 'speedtest'], ['Owner', _p + 'owner']], false, { quoted: fkon, contextInfo: { externalAdReply: { showAdAttribution: true,
-    mediaUrl: global.sig,
-    mediaType: "VIDEO",
-    description: global.sig, 
-    title: wm,
-    body: 'Here List Menu',
-    thumbnail: thumb,
-    sourceUrl: sgc
-}
-} })*/
-
-    //------------------- 2BUTTON VID
-   // conn.sendMessage(m.chat, { video: { url: 'https://telegra.ph/file/c82d5c358495e8ef15916.mp4' }, gifPlayback: true, gifAttribution: ~~(Math.random() * 2), caption: text.trim(), footer: 'ᴍᴀᴅᴇ ᴡɪᴛʜ ❤ ʙʏ ɪᴍ-ʏᴀɴxɪᴀᴏ', templateButtons: [{ quickReplyButton: { displayText: 'Speedtest⚡', id: `${_p}speedtest` }}, { quickReplyButton: { displayText: 'Owner🎀', id: `${_p}owner` }} ] })
-    
     //------------------- Payment MENU
     /*await conn.relayMessage(m.chat,  {
     requestPaymentMessage: {
@@ -426,22 +367,36 @@ return conn.relayMessage(m.chat, pre.message, { messageId: pre.key.id })*/
       showAdAttribution: true
       }}}}}}, {})*/
       
-     //---Made By @ImYanXiao
-    // Mampus Di Enc 🧢
-    // Gausah Dihapus, Thx
+
     //------------------ DOCUMENT WITH EXTERNALADS WITHOUT BUTTON
-    function _0x2daf(){const _0x4c1076=['namedoc','social','1017dFLzIP','11680bWFOeX','sendMessage','1FnTozH','6qNtNxK','445374chjKag','2096504ySppGm','627669MaFyqj','readFileSync','ʜᴏᴡ\x20ᴀʀᴇ\x20ʏᴏᴜ\x20ᴛᴏᴅᴀʏ?','374160lMCurS','356228pujvOS','./thumbnail.jpg','1019845zOpQQK','pdf','chat'];_0x2daf=function(){return _0x4c1076;};return _0x2daf();}const _0x110137=_0x13bb;(function(_0x14d3d7,_0x67b65e){const _0x3a56bf={_0x2e964c:0x1b0,_0x4fc539:0x1bd,_0x2a1845:0x1b1,_0x2b6724:0x1b3,_0x4293cc:0x1b8,_0x59080a:0x1b9},_0x30692c=_0x13bb,_0x119b1c=_0x14d3d7();while(!![]){try{const _0x181128=parseInt(_0x30692c(0x1bb))/0x1*(parseInt(_0x30692c(_0x3a56bf._0x2e964c))/0x2)+parseInt(_0x30692c(_0x3a56bf._0x4fc539))/0x3+parseInt(_0x30692c(_0x3a56bf._0x2a1845))/0x4+parseInt(_0x30692c(_0x3a56bf._0x2b6724))/0x5*(parseInt(_0x30692c(0x1bc))/0x6)+-parseInt(_0x30692c(0x1ad))/0x7+-parseInt(_0x30692c(0x1be))/0x8+parseInt(_0x30692c(_0x3a56bf._0x4293cc))/0x9*(-parseInt(_0x30692c(_0x3a56bf._0x59080a))/0xa);if(_0x181128===_0x67b65e)break;else _0x119b1c['push'](_0x119b1c['shift']());}catch(_0x1caf7d){_0x119b1c['push'](_0x119b1c['shift']());}}}(_0x2daf,0x235d2));function _0x13bb(_0x16c7de,_0x1a27b8){const _0x2dafbc=_0x2daf();return _0x13bb=function(_0x13bbaf,_0x156d41){_0x13bbaf=_0x13bbaf-0x1ad;let _0x1a2b8a=_0x2dafbc[_0x13bbaf];return _0x1a2b8a;},_0x13bb(_0x16c7de,_0x1a27b8);}let buttonMessage={'document':{'url':sgh},'mimetype':td,'fileName':global[_0x110137(0x1b6)],'fileLength':fsizedoc,'pageCount':fpagedoc,'contextInfo':{'externalAdReply':{'showAdAttribution':!![],'mediaType':0x1,'previewType':_0x110137(0x1b4),'title':_0x110137(0x1af),'thumbnail':fs[_0x110137(0x1ae)](_0x110137(0x1b2)),'renderLargerThumbnail':!![],'sourceUrl':global[_0x110137(0x1b7)]}},'caption':text['trim']()};await conn[_0x110137(0x1ba)](m[_0x110137(0x1b5)],buttonMessage,{'quoted':fkontak});
+     return conn.sendMessage(m.chat, {
+            document: { url: sgh},
+            fileName: global.namedoc, 
+            mimetype: global.doc, 
+            fileLength: fsizedoc,
+            pageCount: fpagedoc, 
+            caption: text.trim(), 
+            contextInfo: {
+              mentionedJid:[m.sender], 
+              forwardingScore: '9999999',
+              externalAdReply: {
+                mediaType: 1,
+                previewType:"pdf", 
+                renderLargerThumbnail: true,
+                showAdAttribution: true,
+                sourceUrl: global.social, 
+                thumbnail:fs.readFileSync('./thumbnail.jpg'),
+                title:'ʜᴏᴡ ᴀʀᴇ ʏᴏᴜ ᴛᴏᴅᴀʏ?', 
+              },
+            },
+          }, { quoted: m })
     
-     //------------------- 2BUTTON LOCATION
-    /*conn.sendButton(m.chat, `${ucapan()}﹗`, text.trim(), `${timeimg()}`, [
-      ['🎏 ᴍᴇɴᴜ', `${_p}menu`],
-      ['⚡ sᴘᴇᴇᴅᴛᴇsᴛ', `${_p}speedtest`]
-    ], m, {asLocation: true}))*/
   } catch (e) {
     conn.reply(m.chat, 'Maaf, menu sedang error', m)
     throw e
   }
 }
+
 handler.help = ['menu','allmenu', 'help', '?']
 handler.tags = ['main']
 handler.command = /^(menu|allmenu|help|\?)$/i
@@ -491,31 +446,4 @@ function ucapan() {
     res = "Malam Lord 🌙"
   }
   return res
-}
-function timeimg() {
-    let imgloc = ''
-  const time = moment.tz('Asia/Jakarta').format('HH')
-  imgloc = ('./media/elaina8.png')
-  if (time >= 0) {
-    imgloc = ('./media/elaina.png')
-  }
-  if (time >= 4) {
-    imgloc = ('./media/elaina2.png')
-  }
-  if (time >= 8) {
-    imgloc = ('./media/elaina3.png')
-  }
-  if (time >= 12) {
-    imgloc = ('./media/elaina4.png')
-  }
-  if (time >= 16) {
-    imgloc = ('./media/elaina5.png')
-  }
-  if (time >= 20) {
-    imgloc = ('./media/elaina6.png')
-  }
-  if (time >= 24) {
-    imgloc = ('./media/elaina7.png')
-  }
-  return imgloc
 }
